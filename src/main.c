@@ -312,7 +312,7 @@ void tud_dfu_download_cb(uint8_t alt, uint16_t block_num, uint8_t const* data, u
   _offset = alt == 0 ? SKETCH_FLASH_OFFSET : ZEPHYR_SKETCH_FLASH_OFFSET;
   auc_block_num = block_num;
 
-  printf("\r\nReceived Alt %u BlockNum %u of length %u\r\n", alt, block_num, length);
+  //printf("\r\nReceived Alt %u BlockNum %u of length %u\r\n", alt, block_num, length);
 
   if ((_offset + (block_num * CFG_TUD_DFU_XFER_BUFSIZE)) % PROGRAM_BLOCK_SIZE == 0) {
     // erase block
