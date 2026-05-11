@@ -104,7 +104,10 @@ if [ ! -d "tinyusb" ]; then
     patch -p1 < "$PATCH_PATH"
     
     echo "Getting tinyusb dependencies..."
-    python tools/get_deps.py ra
+    if ! python3 tools/get_deps.py ra; then
+        echo "Error: Failed to fetch tinyusb dependencies. Ensure python3 is installed and working."
+        exit 1
+    fi
     cd ..
 else
     echo "tinyusb already exists. Skipping clone and setup."
@@ -141,7 +144,12 @@ build_board() {
 
     echo "==================================================="
     echo "Building $out_hex_name..."
-    make -f "$makefile" -j8
+    
+    # Check if make succeeds
+    if ! make -f "$makefile" -j8; then
+        echo "Error: Compilation failed for $out_hex_name. Stopping script."
+        exit 1
+    fi
 
     local base_path="$build_dir/$PROJECT_NAME"
 
@@ -181,11 +189,11 @@ build_board() {
         # Clean up the large bin file
         rm -f "${base_path}.bin"
         rm -f "${base_path}.hex"
-		rm -f "${base_path}.elf"
+        rm -f "${base_path}.elf"
     fi
 
     # Clean up the build directory for this specific board run
-	echo "clean up build folder"
+    echo "clean up build folder"
     rm -rf "$build_dir"
 }
 
