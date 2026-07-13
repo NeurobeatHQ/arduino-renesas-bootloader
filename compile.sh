@@ -17,6 +17,10 @@ fi
 
 mkdir distrib
 
+make -f Makefile.zero  -j8
+mv _build/uno_r4/$PROJECT_NAME.hex distrib/dfu_nbtzero.hex
+rm -rf _build
+
 make -f Makefile.wifi  -j8
 mv _build/uno_r4/$PROJECT_NAME.hex distrib/dfu_wifi.hex
 rm -rf _build

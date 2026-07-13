@@ -3,12 +3,12 @@
 # Argument Validation
 TARGET_BOARD=$1
 case "$TARGET_BOARD" in
-    "R4-wifi"|"R4-minima"|"PortentaC33"|"Opta-Analog"|"Opta-Digital"|"All-boards")
+    "Nbt-zero"|"R4-wifi"|"R4-minima"|"PortentaC33"|"Opta-Analog"|"Opta-Digital"|"All-boards")
         # Valid argument, proceed
         ;;
     *)
         echo "Error: Invalid or missing target board."
-        echo "Usage: $0 [R4-minima|R4-wifi|PortentaC33|Opta-Analog|Opta-Digital|All-boards]"
+        echo "Usage: $0 [Nbt-zero|R4-minima|R4-wifi|PortentaC33|Opta-Analog|Opta-Digital|All-boards]"
         exit 1
         ;;
 esac
@@ -199,6 +199,9 @@ build_board() {
 
 # Build the selected board based on the argument
 case "$TARGET_BOARD" in
+    "Nbt-zero")
+        build_board "Makefile.zero" "_build/uno_r4" "dfu_nbtzero.hex" 16384 "false"
+        ;;
     "R4-wifi")
         build_board "Makefile.wifi" "_build/uno_r4" "dfu_wifi.hex" 16384 "false"
         ;;
@@ -215,6 +218,7 @@ case "$TARGET_BOARD" in
         build_board "Makefile.opta-digital" "_build/uno_r4" "opta-digital.hex" 32760 "false"
         ;;
     "All-boards")
+        build_board "Makefile.zero" "_build/nbt_zero" "dfu_nbtzero.hex" 16384 "false"
         build_board "Makefile.wifi" "_build/uno_r4" "dfu_wifi.hex" 16384 "false"
         build_board "Makefile.minima" "_build/uno_r4" "dfu_minima.hex" 16384 "true"
         build_board "Makefile.c33" "_build/portenta_c33" "dfu_c33.hex" 65535 "true"
